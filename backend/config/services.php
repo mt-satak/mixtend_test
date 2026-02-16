@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'schedule_api' => [
+        'url' => env('SCHEDULE_API_URL', 'https://mixtend.com/api/schedules.json'),
+    ],
+
 ];
