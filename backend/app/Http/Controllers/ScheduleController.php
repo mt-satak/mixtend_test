@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
 class ScheduleController extends Controller
 {
     public function index(): JsonResponse
@@ -22,6 +24,8 @@ class ScheduleController extends Controller
             if (! is_array($data) || ! isset($data['working_hours'], $data['meetings'])) {
                 return response()->json(['error' => '外部APIから想定外のレスポンスを受信しました'], 500);
             }
+
+            Log::channel('api')->info('Schedule API response', ['data' => $data]);
 
             return response()->json($data);
         } catch (\Illuminate\Http\Client\ConnectionException $e) {
