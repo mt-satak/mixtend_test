@@ -124,11 +124,15 @@ const gridHeight = computed(() => {
 </template>
 
 <style scoped>
+/* カレンダー全体: ブラウザ幅に追従し、max-widthで上限を設ける */
 .calendar {
   padding: 24px;
   font-family: sans-serif;
   color: #333;
+  max-width: 960px;
 }
+
+/* 日付カラムの最大幅を制限 */
 
 .calendar-title {
   font-size: 16px;
@@ -151,6 +155,7 @@ const gridHeight = computed(() => {
 
 .date-header {
   flex: 1;
+  max-width: 280px;
   text-align: center;
   padding: 8px 0;
   font-size: 14px;
@@ -189,9 +194,10 @@ const gridHeight = computed(() => {
   border-bottom: none;
 }
 
-/* 日付ごとのカラム */
+/* 日付ごとのカラム: flex:1で均等幅、max-widthで上限 */
 .day-column {
   flex: 1;
+  max-width: 280px;
   position: relative;
   border-right: 1px solid #e0e0e0;
 }
