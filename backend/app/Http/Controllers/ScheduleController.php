@@ -11,25 +11,19 @@ class ScheduleController extends Controller
     public function index(): JsonResponse
     {
         try {
-            // TODO: 外部APIが利用可能になったら元のHTTPリクエスト処理に戻す
-            $data = [
-                'working_hours' => [
-                    'start' => '10:00',
-                    'end' => '19:00',
-                ],
-                'meetings' => [
-                    '2021-03-22' => [
-                        ['summary' => 'Meeting 1', 'start' => '10:00', 'end' => '11:00', 'timezone' => 'Asia/Tokyo'],
-                    ],
-                    '2021-03-23' => [
-                        ['summary' => 'Meeting 2', 'start' => '14:00', 'end' => '15:00', 'timezone' => 'Asia/Tokyo'],
-                        ['summary' => 'Meeting 3', 'start' => '16:00', 'end' => '17:00', 'timezone' => 'Asia/Tokyo'],
-                    ],
-                    '2021-03-24' => [
-                        ['summary' => 'Meeting 4', 'start' => '10:30', 'end' => '11:30', 'timezone' => 'Asia/Tokyo'],
-                    ],
-                ],
-            ];
+            $response = Http::withHeaders([
+                'User-Agent' => 'Mixtend Coding Test',
+            ])->get(config('services.schedule_api.url'));
+
+            if ($response->failed()) {
+                return response()->json(['error' => '外部APIからエラーレスポンスを受信しました'], 500);
+            }
+
+            $data = $response->json();
+
+            if (! is_array($data) || ! isset($data['working_hours'], $data['meetings'])) {
+                return response()->json(['error' => '外部APIから想定外のレスポンスを受信しました'], 500);
+            }
 
             Log::channel('api')->info('Schedule API response', ['data' => $data]);
 
