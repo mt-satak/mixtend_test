@@ -219,8 +219,8 @@ const gridHeight = computed(() => {
 /* ミーティングブロック */
 .meeting-block {
   position: absolute;
-  left: 4px;
-  right: 4px;
+  left: 0;
+  right: 0;
   background-color: #6fb9a8;
   color: white;
   font-size: 13px;
